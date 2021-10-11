@@ -1,12 +1,13 @@
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 
-export interface SYRequestInterceptors {
+export interface SYRequestInterceptors<T = AxiosResponse> {
   requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig
   requestInterceptorCatch?: (error: any) => any
-  responseInterceptor?: (config: AxiosResponse) => AxiosResponse
+  responseInterceptor?: (config: T) => T
   responseInterceptorCatch?: (error: any) => any
 }
 
-export interface SYRequestConfig extends AxiosRequestConfig {
-  interceptors?: SYRequestInterceptors
+export interface SYRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
+  interceptors?: SYRequestInterceptors<T>
+  showLoading?: boolean
 }
