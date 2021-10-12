@@ -8,7 +8,9 @@ import {
   ElTabPane,
   ElForm,
   ElFormItem,
-  ElInput
+  ElInput,
+  ElCheckbox,
+  ElLink
 } from 'element-plus/lib/components'
 
 const components = [
@@ -18,7 +20,9 @@ const components = [
   ElTabPane,
   ElForm,
   ElFormItem,
-  ElInput
+  ElInput,
+  ElCheckbox,
+  ElLink
 ]
 
 export default function (app: App): void {
