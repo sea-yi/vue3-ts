@@ -8,6 +8,14 @@ class LocalCache {
       return JSON.parse(value)
     }
   }
+
+  deleteCache(key: string) {
+    window.localStorage.removeItem(key)
+  }
+
+  clearCache() {
+    window.localStorage.clear()
+  }
 }
 
 export default new LocalCache()
