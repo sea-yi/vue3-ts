@@ -4,13 +4,24 @@ const IS_PRO = ['production', 'test'].includes(process.env.NODE_ENV)
 module.exports = {
   outputDir: './build',
   // publicPath:'./'
-  // configureWebpack: {
-  //   resolve: {
-  //     alias: {
-  //       views: '@/views'
-  //     }
-  //   }
-  // }
+  devServer: {
+    proxy: {
+      '^api': {
+        target: 'http://152.136.185.210:5000',
+        pathRewrite: {
+          '^api': ''
+        },
+        changeOrigin: true
+      }
+    }
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        components: '@/components'
+      }
+    }
+  },
   // configureWebpack: (config) => {
   //   config.resolve.alias = {
   //     '@': path.resolve(__dirname, 'src'),
