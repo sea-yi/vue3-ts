@@ -7,6 +7,8 @@ import rootApp from './App.vue'
 
 import router from './router'
 import store from './store'
+import { setupStore } from './store'
+
 // import syRequest from './service'
 
 const app: App = createApp(rootApp)
@@ -15,6 +17,7 @@ registerApp(app)
 app.use(router)
 app.use(store)
 app.mount('#app')
+setupStore()
 
 // interface DataType {
 //   data: any

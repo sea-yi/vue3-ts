@@ -44,7 +44,6 @@ export default defineComponent({
             LocalCache.deleteCache('password')
           }
         }
-        console.log(store.dispatch)
         //2.开始登陆验证
         store.dispatch('login/accountLoginAction', { ...account })
       })
