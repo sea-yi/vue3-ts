@@ -11,6 +11,8 @@ import {
 import { IAccount } from '@/service/login/type'
 
 import LocalCache from '@/utils/cache'
+import { mapMenusToRoutes } from '@/utils/map-menus'
+import user from '@/router/main/system/user/user'
 
 const LoginModule: Module<ILoginState, IRootState> = {
   namespaced: true, ////namespaced: true 的方式使其成为带命名空间的模块。保证在变量名一样的时候，添加一个父级名拼接。
@@ -31,6 +33,15 @@ const LoginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+
+      //userMenus => routes
+      const routes = mapMenusToRoutes(userMenus)
+      // console.log(routes)
+
+      //将routes => router.main.children
+      routes.forEach((route) => {
+        router.addRoute('main', route)
+      })
     }
   },
   actions: {
