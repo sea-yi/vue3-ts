@@ -14,10 +14,11 @@ import { setupStore } from './store'
 const app: App = createApp(rootApp)
 
 registerApp(app)
-app.use(router)
 app.use(store)
-app.mount('#app')
 setupStore()
+app.use(router)
+
+app.mount('#app')
 
 // interface DataType {
 //   data: any
