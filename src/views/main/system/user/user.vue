@@ -1,43 +1,54 @@
 <template>
   <div class="user">
-    <sy-form v-bind="searchFormConfig" v-model="formData">
-      <template #header><h1>高级检索</h1></template>
-      <template #footer>
-        <div class="handle-btns">
-          <el-button icon="el-icon-refresh">重置</el-button>
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
-        </div>
-      </template>
-    </sy-form>
+    <page-search :searchFormConfig="searchFormConfig" />
+    <div class="content">
+      <page-content :contentTableConfig="contentTableConfig"></page-content>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import SyForm from '@/base-ui/form'
+import { computed, defineComponent } from 'vue'
+import { useStore } from '@/store'
+
+import PageSearch from '@/components/page-search'
+import PageContent from '@/components/page-content'
+
 import { searchFormConfig } from './config/search.config'
+import { contentTableConfig } from './config/content.config'
 
 export default defineComponent({
-  components: {
-    SyForm
-  },
+  components: { PageSearch, PageContent },
   setup() {
-    const formData = ref({
-      id: '',
-      name: '',
-      password: '',
-      sport: '',
-      createTime: ''
+    const store = useStore()
+    store.dispatch('system/getPageListAction', {
+      pageUrl: '/users/list',
+      queryInfo: {
+        offset: 0,
+        size: 10
+      }
     })
 
-    return { searchFormConfig, formData }
+    const userList = computed(() => store.state.system.userList)
+    const userCount = computed(() => store.state.system.userCount)
+
+    return {
+      // title,
+      searchFormConfig,
+      userList,
+      userCount,
+      contentTableConfig
+      // propList,
+      // showIndexColumn,
+      // showSelectColumn
+    }
   }
 })
 </script>
 
 <style scoped lang="less">
-.handle-btns {
-  text-align: right;
-  padding: 0 50px 20px 0;
+.content {
+  padding: 20px;
+  border-top: 20px solid #f5f5f5;
 }
 </style>

@@ -1,6 +1,6 @@
 import { Module } from 'vuex'
-import { ILoginState } from './type'
-import { IRootState } from '../type'
+import { ILoginState } from './types'
+import { IRootState } from '../types'
 import router from '@/router'
 
 import {

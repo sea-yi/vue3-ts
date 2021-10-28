@@ -1,5 +1,6 @@
 import syRequest from '../index'
-import { IAccount, IDataType, ILoginResult } from '@/service/login/type'
+import { IAccount, ILoginResult } from '@/service/login/type'
+import { IDataType } from '../types'
 
 enum LoginAPI {
   AccountLogin = '/login',
