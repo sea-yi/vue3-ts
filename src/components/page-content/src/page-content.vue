@@ -1,6 +1,6 @@
 <template>
   <div class="page-content">
-    <sy-table :listData="userList" v-bind="contentTableConfig">
+    <sy-table :listData="dataList" :userCount="userCount" v-bind="contentTableConfig">
       <!-- header插槽 -->
       <template #headerHandler>
         <el-button type="primary" size="medium">新建用户</el-button>
@@ -29,19 +29,43 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed } from 'vue'
+import SyTable from '@/base-ui/table'
+
+import { useStore } from '@/store'
 
 export default defineComponent({
+  components: { SyTable },
   props: {
     contentTableConfig: {
       type: Object,
-      require: true
+      required: true
+    },
+    pageName: {
+      type: String,
+      required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    const store = useStore()
+    store.dispatch('system/getPageListAction', {
+      pageName: props.pageName,
+      queryInfo: {
+        offset: 0,
+        size: 10
+      }
+    })
+
+    const dataList = computed(() => store.getters[`system/pageListData`](props.pageName))
+    // const userCount = computed(() => store.state.system.userCount)
+    return { dataList }
   }
 })
 </script>
 
-<style scoped></style>
+<style scoped lang="less">
+.page-content {
+  padding: 20px;
+  border-top: 20px solid #f5f5f5;
+}
+</style>

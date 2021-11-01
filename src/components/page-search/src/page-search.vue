@@ -4,7 +4,7 @@
       <template #header><h1>高级检索</h1></template>
       <template #footer>
         <div class="handle-btns">
-          <el-button icon="el-icon-refresh">重置</el-button>
+          <el-button icon="el-icon-refresh" @click="handleResetClick">重置</el-button>
           <el-button type="primary" icon="el-icon-search">搜索</el-button>
         </div>
       </template>
@@ -26,15 +26,23 @@ export default defineComponent({
   components: {
     SyForm
   },
-  setup() {
-    const formData = ref({
-      id: '',
-      name: '',
-      password: '',
-      sport: '',
-      createTime: ''
-    })
-    return { formData }
+  setup(props) {
+    //优化：双向绑定的属性应该是由配置文件的field来决定
+    const formItems = props.searchFormConfig?.formItems ?? []
+    const formOriginData: any = []
+    for (const item of formItems) {
+      formOriginData[item.field] = ''
+    }
+    const formData = ref(formOriginData)
+
+    const handleResetClick = () => {
+      // for (const key in formOriginData) {
+      //   formData.value[`${key}`] = formOriginData[key]
+      // }
+
+      formData.value = formOriginData
+    }
+    return { formData, handleResetClick }
   }
 })
 </script>

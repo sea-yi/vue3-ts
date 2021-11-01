@@ -9,6 +9,6 @@ export function formatUtcString(utcString: string, format: string = DATE_TIME_FO
   return dayjs.utc(utcString).format(format)
 }
 
-export function formatTimestamp(timestamp: number, format: string = DATE_TIME_FORMAT) {
-  return '00'
-}
+// export function formatTimestamp(timestamp: number, format: string = DATE_TIME_FORMAT) {
+//   return '00'
+// }

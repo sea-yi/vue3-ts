@@ -13,15 +13,23 @@
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
                   v-bind="item.otherOptions"
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 />
+                <!-- <el-input
+                  :placeholder="item.placeholder"
+                  :show-password="item.type === 'password'"
+                  v-bind="item.otherOptions"
+                  v-model="formData[`${item.field}`]"
+                /> -->
               </template>
               <template v-else-if="item.type === 'select'">
                 <el-select
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   style="width: 100%"
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -35,7 +43,8 @@
                 <el-date-picker
                   v-bind="item.otherOptions"
                   style="width: 100%"
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 />
               </template>
             </el-form-item>
@@ -50,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watch } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import { IFormItem } from '../types'
 
 export default defineComponent({
@@ -65,7 +74,7 @@ export default defineComponent({
     },
     labelWidth: {
       type: String,
-      default: '100'
+      default: '100px'
     },
     itemLayout: {
       type: Object,
@@ -86,11 +95,16 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const formData = ref({ ...props.modelValue })
-    //deep: true  : 深度监听
-    watch(formData, (newValue) => emit('update:modelValue', newValue), { deep: true })
+    const handleValueChange = (value: any, field: string) => {
+      emit('update:modelValue', { ...props.modelValue, [field]: value })
+    }
 
-    return { formData }
+    // const formData = ref({ ...props.modelValue })
+
+    // //deep: true  : 深度监听
+    // watch(formData, (newValue) => emit('update:modelValue', newValue), { deep: true })
+
+    return { handleValueChange }
   }
 })
 </script>
