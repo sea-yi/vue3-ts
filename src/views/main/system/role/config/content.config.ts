@@ -1,5 +1,6 @@
 export const contentTableConfig = {
   title: '角色列表',
+  btnContent: '新增角色',
   showIndexColumn: true,
   showSelectColumn: true,
   propList: [

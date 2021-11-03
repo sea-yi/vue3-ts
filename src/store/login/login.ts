@@ -11,7 +11,7 @@ import {
 import { IAccount } from '@/service/login/type'
 
 import LocalCache from '@/utils/cache'
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenuToPermissions } from '@/utils/map-menus'
 import user from '@/router/main/system/user/user'
 
 const LoginModule: Module<ILoginState, IRootState> = {
@@ -20,7 +20,8 @@ const LoginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: {},
-      userMenus: []
+      userMenus: [],
+      permissions: []
     }
   },
   getters: {},
@@ -42,6 +43,11 @@ const LoginModule: Module<ILoginState, IRootState> = {
       routes.forEach((route) => {
         router.addRoute('main', route)
       })
+
+      //获取用户按钮的权限
+      const permissions = mapMenuToPermissions(userMenus)
+      state.permissions = permissions
+      console.log(permissions)
     }
   },
   actions: {

@@ -5,7 +5,7 @@
       <template #footer>
         <div class="handle-btns">
           <el-button icon="el-icon-refresh" @click="handleResetClick">重置</el-button>
-          <el-button type="primary" icon="el-icon-search">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="handleQueryClick">搜索</el-button>
         </div>
       </template>
     </sy-form>
@@ -26,7 +26,8 @@ export default defineComponent({
   components: {
     SyForm
   },
-  setup(props) {
+  emits: ['resetBtnClick', 'queryBtnClick'],
+  setup(props, { emit }) {
     //优化：双向绑定的属性应该是由配置文件的field来决定
     const formItems = props.searchFormConfig?.formItems ?? []
     const formOriginData: any = []
@@ -41,8 +42,16 @@ export default defineComponent({
       // }
 
       formData.value = formOriginData
+
+      emit('resetBtnClick')
     }
-    return { formData, handleResetClick }
+
+    // 当用户点击搜索
+    const handleQueryClick = () => {
+      emit('queryBtnClick', formData.value)
+    }
+
+    return { formData, handleResetClick, handleQueryClick }
   }
 })
 </script>
