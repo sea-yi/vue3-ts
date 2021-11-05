@@ -8,7 +8,9 @@
     >
       <!-- header插槽 -->
       <template #headerHandler="btn">
-        <el-button type="primary" size="medium" v-if="isCreate">{{ btn.btnContent }}</el-button>
+        <el-button type="primary" size="medium" v-if="isCreate" @click="handleNewClick">
+          {{ btn.btnContent }}
+        </el-button>
       </template>
 
       <template #createAt="scope">
@@ -17,10 +19,25 @@
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handle-btns">
-          <el-button icon="el-icon-edit" size="mini" type="text" v-if="isUpdate">编辑</el-button>
-          <el-button icon="el-icon-delete" size="mini" type="text" v-if="isDelete">删除</el-button>
+          <el-button
+            icon="el-icon-edit"
+            size="mini"
+            type="text"
+            v-if="isUpdate"
+            @click="handleEditClick(scope.row)"
+          >
+            编辑
+          </el-button>
+          <el-button
+            icon="el-icon-delete"
+            size="mini"
+            type="text"
+            v-if="isDelete"
+            @click="handleDeleteClick(scope.row)"
+            >删除</el-button
+          >
         </div>
       </template>
 
@@ -53,7 +70,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['newBtnClick', 'editBtnClick'],
+  setup(props, { emit }) {
     const store = useStore()
 
     // 获取操作权限
@@ -63,7 +81,7 @@ export default defineComponent({
     const isQuery = usePermission(props.pageName, 'query')
 
     //双向绑定pageInfo
-    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageData())
 
     //发送网络请求
@@ -72,7 +90,7 @@ export default defineComponent({
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
           ...queryInfo
         }
@@ -92,6 +110,25 @@ export default defineComponent({
       return true
     })
 
+    // 删除操作
+    const handleDeleteClick = (item: any) => {
+      console.log(item)
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+
+    //编辑/新建操作
+    const handleNewClick = () => {
+      emit('newBtnClick')
+    }
+
+    //新建操作
+    const handleEditClick = (item: any) => {
+      emit('editBtnClick', item)
+    }
+
     return {
       dataList,
       getPageData,
@@ -100,7 +137,10 @@ export default defineComponent({
       otherPropSlots,
       isCreate,
       isDelete,
-      isUpdate
+      isUpdate,
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick
     }
   }
 })

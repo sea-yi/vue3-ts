@@ -30,11 +30,11 @@ export default defineComponent({
   setup(props, { emit }) {
     //优化：双向绑定的属性应该是由配置文件的field来决定
     const formItems = props.searchFormConfig?.formItems ?? []
-    const formOriginData: any = []
+    const formOriginData: any = {}
     for (const item of formItems) {
-      formOriginData[item.field] = ''
+      formOriginData[`${item.field}`] = ''
     }
-    const formData = ref(formOriginData)
+    const formData = ref({ ...formOriginData })
 
     const handleResetClick = () => {
       // for (const key in formOriginData) {

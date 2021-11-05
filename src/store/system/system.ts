@@ -2,7 +2,7 @@ import { Module } from 'vuex'
 import { IRootState } from '../types'
 import { ISystemState } from './types'
 
-import { getPageListData } from '@/service/main/system/system'
+import { deletePageData, getPageListData } from '@/service/main/system/system'
 
 // const pageUrlMap = {
 //   user: '/users/list',
@@ -108,6 +108,24 @@ const systemModle: Module<ISystemState, IRootState> = {
       //     commit('changeRoleCount', totalCount)
       //     break
       // }
+    },
+
+    async deletePageDataAction({ dispatch }, payload: any) {
+      //pageName  id
+      const { pageName, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+
+      //调用删除网络请求
+      await deletePageData(pageUrl)
+
+      //重新请求数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
     }
   }
 }
