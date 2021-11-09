@@ -2,8 +2,10 @@ import axios from 'axios'
 import type { AxiosInstance } from 'axios'
 import type { SYRequestInterceptors, SYRequestConfig } from './type'
 
-import { ElLoading } from 'element-plus/lib/components'
-import { ILoadingInstance } from 'element-plus/lib/components/loading/src/loading.type'
+// import { ElLoading } from 'element-plus/lib/components'
+// import { ILoadingInstance } from 'element-plus/lib/components/loading/src/loading.type'
+import { ElLoading } from 'element-plus'
+import { ILoadingInstance } from 'element-plus/lib/el-loading/src/loading.type'
 
 const DEFAULT_LOADING = true
 

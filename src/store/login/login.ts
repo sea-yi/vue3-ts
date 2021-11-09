@@ -53,13 +53,16 @@ const LoginModule: Module<ILoginState, IRootState> = {
     /**
      * 账号登录
      */
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       //1.实现登录逻辑
       const loginResult = await accountLoginRequest(payload)
       const { id, token } = loginResult.data
       commit('changeToken', token)
       LocalCache.setCache('token', token)
       // console.log(loginResult)
+
+      //请求完整的role和department信息
+      dispatch('getInitialDataAction', null, { root: true })
 
       //2.请求用户信息
       const userInfoResult = await requestUserInfoById(id)
@@ -80,10 +83,12 @@ const LoginModule: Module<ILoginState, IRootState> = {
     },
 
     //更新vuex中的值
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = LocalCache.getCache('token')
       if (token) {
         commit('changeToken', token)
+        //请求完整的role和department信息
+        dispatch('getInitialDataAction', null, { root: true })
       }
       const userInfo = LocalCache.getCache('userInfo')
       if (userInfo) {

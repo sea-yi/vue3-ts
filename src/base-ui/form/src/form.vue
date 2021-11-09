@@ -11,7 +11,7 @@
               v-if="!item.isHidden"
               :label="item.label"
               :rules="item.rules"
-              :style="itemLayout"
+              :style="itemStyle"
             >
               <template v-if="item.type === 'input' || item.type === 'password'">
                 <el-input
@@ -50,7 +50,7 @@
                   style="width: 100%"
                   :model-value="modelValue[`${item.field}`]"
                   @update:modelValue="handleValueChange($event, item.field)"
-                />
+                ></el-date-picker>
               </template>
             </el-form-item>
           </el-col>
@@ -81,7 +81,7 @@ export default defineComponent({
       type: String,
       default: '100px'
     },
-    itemLayout: {
+    itemStyle: {
       type: Object,
       default: () => ({
         padding: '10px 40px'
@@ -101,7 +101,6 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(props, { emit }) {
     const handleValueChange = (value: any, field: string) => {
-      console.log(value)
       emit('update:modelValue', { ...props.modelValue, [field]: value })
     }
 

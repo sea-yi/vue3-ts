@@ -6,8 +6,10 @@ type CallbackFn = () => void
 export function usePageModal(newCallback?: CallbackFn, editCallback?: CallbackFn) {
   const pageModalRef = ref<InstanceType<typeof PageModal>>()
   const defaultInfo = ref({})
+  const dialogTitle = ref('')
   const handleNewData = () => {
-    defaultInfo.value = ref({})
+    defaultInfo.value = {}
+    dialogTitle.value = '新建'
     if (pageModalRef.value) {
       pageModalRef.value.dialogVisible = true
     }
@@ -15,11 +17,13 @@ export function usePageModal(newCallback?: CallbackFn, editCallback?: CallbackFn
   }
   const handleEditData = (item: any) => {
     defaultInfo.value = { ...item }
+    dialogTitle.value = '编辑'
+
     if (pageModalRef.value) {
       pageModalRef.value.dialogVisible = true
     }
     editCallback && editCallback()
   }
 
-  return [pageModalRef, defaultInfo, handleNewData, handleEditData]
+  return [pageModalRef, defaultInfo, dialogTitle, handleNewData, handleEditData]
 }

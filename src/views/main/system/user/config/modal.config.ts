@@ -1,6 +1,7 @@
-import PageContent from '@/components/page-content'
+import { IForm } from '@/base-ui/form'
 
-export const modalConfig = {
+export const modalConfig: IForm = {
+  title: '用户',
   formItems: [
     {
       field: 'name',
@@ -45,5 +46,5 @@ export const modalConfig = {
   colLayout: {
     span: 24
   },
-  itemLayout: {}
+  itemStyle: {}
 }

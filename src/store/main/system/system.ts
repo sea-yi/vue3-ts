@@ -1,8 +1,13 @@
 import { Module } from 'vuex'
-import { IRootState } from '../types'
+import { IRootState } from '../../types'
 import { ISystemState } from './types'
 
-import { deletePageData, getPageListData } from '@/service/main/system/system'
+import {
+  deletePageData,
+  getPageListData,
+  creactePageData,
+  editPageData
+} from '@/service/main/system/system'
 
 // const pageUrlMap = {
 //   user: '/users/list',
@@ -69,6 +74,9 @@ const systemModle: Module<ISystemState, IRootState> = {
     }
   },
   actions: {
+    /**
+     * 获取数据
+     */
     async getPageListAction({ commit }, payload: any) {
       console.log(payload)
       //获取pageurl
@@ -110,6 +118,9 @@ const systemModle: Module<ISystemState, IRootState> = {
       // }
     },
 
+    /**
+     * 删除数据
+     */
     async deletePageDataAction({ dispatch }, payload: any) {
       //pageName  id
       const { pageName, id } = payload
@@ -117,6 +128,43 @@ const systemModle: Module<ISystemState, IRootState> = {
 
       //调用删除网络请求
       await deletePageData(pageUrl)
+
+      //重新请求数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+
+    /**
+     * 新建数据
+     */
+    async createPageDataAction({ dispatch }, payload: any) {
+      const { pageName, newData } = payload
+      const pageUrl = `/${pageName}`
+      const newDataResult = await creactePageData(pageUrl, newData)
+      console.log(newDataResult)
+
+      //重新请求数据
+      dispatch('getPageListAction', {
+        pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10
+        }
+      })
+    },
+
+    /**
+     * 编辑数据
+     */
+    async editPageDataAction({ dispatch }, payload: any) {
+      const { pageName, editData, id } = payload
+      const pageUrl = `/${pageName}/${id}`
+      await editPageData(pageUrl, editData)
 
       //重新请求数据
       dispatch('getPageListAction', {

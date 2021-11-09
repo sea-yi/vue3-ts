@@ -1,9 +1,8 @@
-import 'element-plus/dist/index.css'
+// import 'element-plus/dist/index.css'
 import { App } from 'vue'
 
 import {
   ElButton,
-  ElTable,
   ElTabs,
   ElTabPane,
   ElForm,
@@ -18,7 +17,7 @@ import {
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
-  ElSubMenu,
+  ElSubmenu,
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
@@ -33,12 +32,14 @@ import {
   ElTableColumn,
   ElPagination,
   ElImage,
-  ElDialog
-} from 'element-plus/lib/components'
+  ElDialog,
+  ElTable
+} from 'element-plus'
+// from 'element-plus/lib/components'
+import 'element-plus/lib/theme-chalk/base.css'
 
 const components = [
   ElButton,
-  ElTable,
   ElTabs,
   ElTabPane,
   ElForm,
@@ -51,7 +52,7 @@ const components = [
   ElHeader,
   ElMain,
   ElMenu,
-  ElSubMenu,
+  ElSubmenu,
   ElMenuItem,
   ElMenuItemGroup,
   ElDropdown,

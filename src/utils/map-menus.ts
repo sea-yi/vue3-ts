@@ -1,6 +1,6 @@
 import { IBreadcrumb } from '@/base-ui/breadcrumb'
-import user from '@/router/main/system/user/user'
-import Color from 'element-plus/lib/components/color-picker/src/color'
+// import user from '@/router/main/system/user/user'
+// import Color from 'element-plus/lib/components/color-picker/src/color'
 import { RouteRecordRaw } from 'vue-router'
 
 let firstMenu: any = null

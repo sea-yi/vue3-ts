@@ -22,14 +22,15 @@
 
     <page-modal
       ref="pageModalRef"
-      :modalConfig="modalConfig"
+      pageName="users"
+      :modalConfig="modalConfigRef"
       :defaultInfo="defaultInfo"
     ></page-modal>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 import PageSearch from '@/components/page-search'
 import PageContent from '@/components/page-content'
@@ -41,12 +42,14 @@ import { modalConfig } from './config/modal.config'
 
 import { usePageSearch } from '@/hooks/usePageSearch'
 import { usePageModal } from '@/hooks/usePageModal'
+import { useStore } from 'vuex'
 export default defineComponent({
   components: { PageSearch, PageContent, PageModal },
   setup() {
     const [pageContentRef, handleResetClick, handleQueryClick] = usePageSearch()
 
     //pageModal相关的hook逻辑
+    //1.处理密码显示与不显示的逻辑
     const newCallback = () => {
       const passwordItem = modalConfig.formItems.find((item) => item.field === 'password')
       passwordItem!.isHidden = false
@@ -55,6 +58,22 @@ export default defineComponent({
       const passwordItem = modalConfig.formItems.find((item) => item.field === 'password')
       passwordItem!.isHidden = true
     }
+    const modalConfigRef = computed(() => {
+      //2.动态添加部门和角色列表
+      const store = useStore()
+
+      const departmentItem = modalConfig.formItems.find((item) => item.field === 'departmentId')
+      departmentItem!.options = store.state.entireDepartment.map((item: any) => {
+        return { title: item.name, value: item.id }
+      })
+      const roleItem = modalConfig.formItems.find((item) => item.field === 'roleId')
+      roleItem!.options = store.state.entireRole.map((item: any) => {
+        return { title: item.name, value: item.id }
+      })
+      return modalConfig
+    })
+
+    //3，调用hook获取公共变量和函数
     const [pageModalRef, defaultInfo, handleNewData, handleEditData] = usePageModal(
       newCallback,
       editCallback
@@ -66,7 +85,7 @@ export default defineComponent({
       pageContentRef,
       handleResetClick,
       handleQueryClick,
-      modalConfig,
+      modalConfigRef,
       handleNewData,
       handleEditData,
       pageModalRef,

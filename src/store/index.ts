@@ -2,7 +2,7 @@ import { createStore, Store, useStore as useVuexStore } from 'vuex'
 import { IRootState, IStoreType } from './types'
 
 import login from './login/login'
-import system from './system/system'
+import system from './main/system/system'
 
 import { getPageListData } from '@/service/main/system/system'
 
@@ -43,7 +43,7 @@ const store = createStore<IRootState>({
 
 export function setupStore() {
   store.dispatch('login/loadLocalLogin')
-  store.dispatch('getInitialDataAction')
+  // store.dispatch('getInitialDataAction')
 }
 
 export function useStore(): Store<IStoreType> {
