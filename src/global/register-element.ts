@@ -33,7 +33,8 @@ import {
   ElPagination,
   ElImage,
   ElDialog,
-  ElTable
+  ElTable,
+  ElTree
 } from 'element-plus'
 // from 'element-plus/lib/components'
 import 'element-plus/lib/theme-chalk/base.css'
@@ -70,7 +71,8 @@ const components = [
   ElTableColumn,
   ElPagination,
   ElImage,
-  ElDialog
+  ElDialog,
+  ElTree
 ]
 
 export default function (app: App): void {

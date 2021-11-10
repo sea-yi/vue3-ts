@@ -1,16 +1,26 @@
 <template>
   <div class="dashboard">
     <h2>dashboard</h2>
+    <div ref="divRef"></div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
+
+import * as echarts from 'echarts'
 
 export default defineComponent({
   name: 'dashboard',
   setup() {
-    return {}
+    const divRef = ref<HTMLElement>()
+    onMounted(() => {
+      const echartInstance = echarts.init(divRef.value!)
+      const option = {}
+      echartInstance.setOption(option)
+    })
+
+    return { echarts }
   }
 })
 </script>
