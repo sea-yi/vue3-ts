@@ -34,7 +34,8 @@ import {
   ElImage,
   ElDialog,
   ElTable,
-  ElTree
+  ElTree,
+  ElCard
 } from 'element-plus'
 // from 'element-plus/lib/components'
 import 'element-plus/lib/theme-chalk/base.css'
@@ -72,7 +73,8 @@ const components = [
   ElPagination,
   ElImage,
   ElDialog,
-  ElTree
+  ElTree,
+  ElCard
 ]
 
 export default function (app: App): void {

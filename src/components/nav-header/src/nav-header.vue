@@ -15,7 +15,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 import UserInfo from './user-info.vue'
-import SyBreadcrumb, { IBreadcrumb } from '@/base-ui/breadcrumb'
+import SyBreadcrumb from '@/base-ui/breadcrumb'
 import { pathMapBreadcrumbs } from '@/utils/map-menus'
 
 import { useStore } from '@/store'

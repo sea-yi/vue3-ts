@@ -12,7 +12,6 @@ import { IAccount } from '@/service/login/type'
 
 import LocalCache from '@/utils/cache'
 import { mapMenusToRoutes, mapMenuToPermissions } from '@/utils/map-menus'
-import user from '@/router/main/system/user/user'
 
 const LoginModule: Module<ILoginState, IRootState> = {
   namespaced: true, ////namespaced: true 的方式使其成为带命名空间的模块。保证在变量名一样的时候，添加一个父级名拼接。
@@ -100,7 +99,7 @@ const LoginModule: Module<ILoginState, IRootState> = {
       }
     },
 
-    phoneLoginAction({ commit }, payload: any) {
+    phoneLoginAction(payload: any) {
       console.log(payload)
     }
   }
